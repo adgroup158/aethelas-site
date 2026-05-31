@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Aethelas — The AI-Powered Intelligent Blockchain. iPoS consensus, 100K+ TPS, sub-400ms finality.">
+<meta property="og:title" content="Aethelas — The AI-Powered Intelligent Blockchain">
+<meta property="og:description" content="The first production-grade protocol to unify immutable decentralization with adaptive intelligence.">
+<title>Aethelas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --white:   #ffffff;
+  --bg:      #faf8f5;
+  --bg2:     #f5ede2;
+  --surface: #ffffff;
+
+  --text:    #11131f;
+  --body:    #3c3c43;
+  --muted:   #6b6b7b;
+  --faint:   #9898a6;
+  --border:  #e8ddd0;
+  --border2: #d4b896;
+
+  --purple:  #e07b28;
+  --purple2: #c5621a;
+  --purple3: rgba(224,123,40,0.12);
+  --purple4: rgba(224,123,40,0.06);
+  --green:   #48bb78;
+  --orange:  #e07b28;
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --max: 1280px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.90);
+  backdrop-filter: blur(12px);
+}
+
+.nav-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo-diamond {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.nav-logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  flex: 1;
+}
+
+.nav-links a {
+  display: block;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--body);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+
+.nav-links a:hover { color: var(--text); background: var(--bg2); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.nav-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+  font-family: var(--font);
+  border: none;
+}
+
+.nav-btn-ghost {
+  background: transparent;
+  color: var(--body);
+  border: 1px solid var(--border2);
+}
+
+.nav-btn-ghost:hover { background: var(--bg2); color: var(--text); }
+
+.nav-btn-primary {
+  background: var(--purple);
+  color: #fff;
+}
+
+.nav-btn-primary:hover { background: var(--purple2); }
+
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--body);
+  margin-left: auto;
+}
+
+.nav-hamburger svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+@media(max-width:900px) {
+  .nav-links,.nav-right { display: none; }
+  .nav-hamburger { display: flex; }
+}
+
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 2rem 1.5rem;
+  z-index: 199;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-nav.open { display: flex; }
+.mobile-nav a { display: block; padding: 10px 12px; font-size: 15px; color: var(--body); text-decoration: none; border-radius: 8px; }
+.mobile-nav a:hover { background: var(--bg2); color: var(--text); }
+
+/* ─── PAGE WRAP ─── */
+.page {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ─── SECTIONS ─── */
+section { padding: 96px 0; }
+
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 12px;
+  display: block;
+}
+
+h2.section-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.section-desc {
+  font-size: 1.0625rem;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.75;
+}
+
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* ─── HERO ─── */
+.hero {
+  padding-top: calc(64px + 80px);
+  padding-bottom: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--white) 0%, #fff5eb 60%, var(--white) 100%);
+  position: relative;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding-bottom: 80px;
+}
+
+@media(max-width:860px) {
+  .hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .hero-visual { order: -1; display: flex; justify-content: center; }
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: var(--purple3);
+  border: 1px solid rgba(224,123,40,0.25);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--purple2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+
+.hero h1 span {
+  background: linear-gradient(135deg, #e07b28 0%, #f5a623 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.125rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  max-width: 480px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 13px 28px;
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover { background: var(--purple2); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(224,123,40,0.3); }
+
+.btn-secondary {
+  padding: 12px 28px;
+  background: var(--white);
+  color: var(--text);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover { border-color: var(--purple); color: var(--purple2); background: var(--purple4); }
+
+/* ─── HERO VISUAL (rotating diamond SVG) ─── */
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.diamond-wrap {
+  position: relative;
+  width: 360px;
+  height: 360px;
+}
+
+@media(max-width:860px) { .diamond-wrap { width: 260px; height: 260px; } }
+
+.diamond-rotate {
+  animation: spin-slow 20s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.diamond-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes spin-slow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+
+/* ─── AUDIT STRIP ─── */
+.audit-strip {
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.audit-kicker { font-size: 12px; color: var(--faint); font-weight: 500; letter-spacing: 0.04em; }
+.audit-firm   { font-size: 12px; font-weight: 600; color: var(--muted); }
+.audit-sep    { color: var(--border2); }
+
+/* ─── STATS ─── */
+.stats-section {
+  background: var(--bg);
+  padding: 64px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.stat-cell {
+  background: var(--white);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.stat-num {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.stat-lbl {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--faint);
+  letter-spacing: 0.02em;
+}
+
+/* ─── ABSTRACT ─── */
+.abstract-section { background: var(--white); }
+
+.abstract-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  margin-top: 3.5rem;
+  align-items: start;
+}
+
+@media(max-width:768px) { .abstract-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+.abstract-prose { font-size: 1.0625rem; color: var(--body); line-height: 1.85; }
+.abstract-prose + .abstract-prose { margin-top: 1.25rem; }
+
+.callout-box {
+  padding: 32px;
+  background: linear-gradient(135deg, #fff8f0 0%, #fef3e8 100%);
+  border: 1px solid rgba(224,123,40,0.2);
+  border-radius: 16px;
+  position: relative;
+}
+
+.callout-box blockquote {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+.callout-box cite {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--purple);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+/* ─── AI LAYERS ─── */
+.ai-section { background: var(--bg); }
+
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 3.5rem;
+}
+
+.ai-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.2s;
+}
+
+.ai-card:hover {
+  border-color: rgba(224,123,40,0.3);
+  box-shadow: 0 8px 32px rgba(224,123,40,0.08);
+  transform: translateY(-2px);
+}
+
+.ai-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  font-size: 22px;
+}
+
+.icon-orange1 { background: rgba(224,123,40,0.1); }
+.icon-blue    { background: rgba(224,123,40,0.08); }
+.icon-green   { background: rgba(224,123,40,0.06); }
+.icon-orange  { background: rgba(224,123,40,0.09); }
+
+.ai-card h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.ai-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.ai-card-foot {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--purple);
+  letter-spacing: 0.02em;
+}
+
+/* ─── ROADMAP ─── */
+.roadmap-section { background: var(--white); }
+
+.rm-timeline {
+  margin-top: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rm-row {
+  display: grid;
+  grid-template-columns: 200px 56px 1fr;
+  gap: 0;
+  position: relative;
+}
+
+@media(max-width:640px) {
+  .rm-row { grid-template-columns: 40px 1fr; gap: 0; }
+  .rm-date-col { display: none; }
+}
+
+.rm-row:not(:last-child) .rm-line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 28px;
+  bottom: -20px;
+  width: 1px;
+  background: var(--border);
+  transform: translateX(-50%);
+}
+
+.rm-date-col {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 4px 20px 40px 0;
+}
+
+.rm-date-txt {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--faint);
+  letter-spacing: 0.04em;
+  text-align: right;
+  padding-top: 2px;
+}
+
+.rm-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 4px;
+}
+
+.rm-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid var(--border);
+  background: var(--white);
+  position: relative;
+  z-index: 1;
+}
+
+.rm-dot.done   { background: var(--green);  border-color: var(--green); }
+.rm-dot.active { background: var(--purple); border-color: var(--purple); box-shadow: 0 0 0 4px rgba(224,123,40,0.15); }
+.rm-dot.soon   { background: var(--white);  border-color: var(--border2); }
+
+.rm-body { padding: 0 0 40px 20px; }
+
+.rm-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.rm-name {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.rm-pill {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.rm-pill.done   { background: rgba(72,187,120,0.12); color: #2f855a; }
+.rm-pill.active { background: var(--purple3);        color: var(--purple2); }
+.rm-pill.soon   { background: var(--bg2);            color: var(--faint); }
+
+.rm-desc { font-size: 14.5px; color: var(--body); line-height: 1.7; }
+.rm-desc strong { color: var(--text); font-weight: 600; }
+
+/* ─── FOUNDER ─── */
+.founder-section { background: var(--bg); }
+
+.founder-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  align-items: start;
+  max-width: 600px;
+  margin-top: 3rem;
+  padding: 32px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+@media(max-width:500px) { .founder-card { grid-template-columns: 1fr; } }
+
+.founder-av {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e07b28 0%, #f5a623 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.founder-name { font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 2px; letter-spacing: -0.01em; }
+.founder-role { font-size: 12px; font-weight: 600; color: var(--faint); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+.founder-bio  { font-size: 14px; color: var(--body); line-height: 1.7; margin-bottom: 16px; }
+
+.founder-links { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.founder-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--body);
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+.founder-link:hover { border-color: var(--purple); color: var(--purple2); background: var(--purple4); }
+
+.hiring-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 10px 16px;
+  background: rgba(72,187,120,0.07);
+  border: 1px solid rgba(72,187,120,0.2);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--body);
+}
+
+.hiring-note a { color: #276749; font-weight: 600; text-decoration: none; }
+.hiring-note a:hover { text-decoration: underline; }
+
+/* ─── WHITEPAPER ─── */
+.wp-section { background: var(--white); }
+
+.wp-card {
+  margin-top: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.wp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.wp-file-row { display: flex; align-items: center; gap: 14px; }
+
+.wp-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--purple);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wp-icon svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.wp-name { font-size: 15px; font-weight: 700; color: var(--text); display: block; margin-bottom: 2px; }
+.wp-meta { font-size: 12px; color: var(--faint); font-weight: 500; }
+
+.wp-btns { display: flex; gap: 8px; }
+.wp-viewer { width: 100%; height: 680px; border: none; display: block; background: var(--bg); }
+
+/* ─── COMMUNITY ─── */
+.community-section { background: var(--bg); }
+
+.comm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 3rem;
+}
+
+.comm-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 22px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.comm-card:hover {
+  border-color: rgba(224,123,40,0.3);
+  box-shadow: 0 4px 20px rgba(224,123,40,0.08);
+  transform: translateY(-2px);
+}
+
+.comm-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--purple3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.comm-icon svg { width: 20px; height: 20px; }
+
+.comm-arrow { margin-left: auto; color: var(--faint); font-size: 16px; }
+
+/* ─── CONTACT ─── */
+/* contact removed */
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4.5rem;
+  margin-top: 3.5rem;
+  align-items: start;
+}
+
+@media(max-width:768px) { .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+.contact-lhs p { font-size: 1rem; color: var(--body); line-height: 1.8; margin-bottom: 1.25rem; }
+
+.contact-details { display: flex; flex-direction: column; gap: 10px; margin-top: 1.5rem; }
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.contact-key { font-size: 11px; font-weight: 700; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; min-width: 44px; }
+.contact-val { font-size: 14px; color: var(--text); }
+.contact-val a { color: var(--purple2); text-decoration: none; font-weight: 500; }
+.contact-val a:hover { text-decoration: underline; }
+
+.contact-form { display: flex; flex-direction: column; gap: 14px; }
+
+.cf-group { display: flex; flex-direction: column; gap: 6px; }
+
+.cf-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cf-input {
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+
+.cf-input::placeholder { color: var(--faint); }
+.cf-input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(224,123,40,0.12); }
+textarea.cf-input { resize: vertical; min-height: 100px; }
+
+.cf-status { font-size: 13px; color: #276749; font-weight: 500; }
+
+/* ─── LEGAL ─── */
+.legal-section { background: var(--bg); }
+
+.legal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 3rem;
+}
+
+.legal-card {
+  padding: 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.legal-card h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.legal-card p { font-size: 13.5px; color: var(--body); line-height: 1.7; }
+
+/* ─── AI CHAT ─── */
+.ai-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 500;
+}
+
+.ai-toggle-btn {
+  width: 54px;
+  height: 54px;
+  background: var(--purple);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(224,123,40,0.35);
+  transition: all 0.2s;
+}
+
+.ai-toggle-btn:hover { background: var(--purple2); transform: scale(1.05); }
+.ai-toggle-btn svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.ai-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  width: 380px;
+  max-height: 540px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06);
+  display: none;
+  flex-direction: column;
+  z-index: 499;
+  overflow: hidden;
+}
+
+@media(max-width:440px) { .ai-panel { width: calc(100vw - 32px); right: 16px; } }
+.ai-panel.open { display: flex; }
+
+.ai-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  flex-shrink: 0;
+}
+
+.ai-head-left { display: flex; align-items: center; gap: 10px; }
+
+.ai-head-av {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.ai-head-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.ai-head-sub   { font-size: 11px; color: var(--faint); margin-top: 1px; }
+
+.ai-close-btn { background: none; border: none; cursor: pointer; color: var(--faint); font-size: 20px; line-height: 1; padding: 2px; border-radius: 4px; }
+.ai-close-btn:hover { color: var(--text); background: var(--bg2); }
+
+.ai-messages { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+
+.ai-msg { display: flex; gap: 10px; align-items: flex-start; }
+.ai-msg.user { flex-direction: row-reverse; }
+
+.ai-av {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ai-av.bot  { background: var(--purple); color: #fff; }
+.ai-av.user { background: var(--bg2);    color: var(--body); border: 1px solid var(--border); }
+
+.ai-bub {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.ai-bub.bot  { background: var(--bg); border: 1px solid var(--border); color: var(--text); }
+.ai-bub.user { background: var(--purple); color: #fff; }
+
+.ai-typing { display: flex; gap: 4px; align-items: center; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; max-width: 60px; }
+.ai-typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--faint); animation: aitype 1.2s ease-in-out infinite; }
+.ai-typing span:nth-child(2){animation-delay:0.2s} .ai-typing span:nth-child(3){animation-delay:0.4s}
+@keyframes aitype{0%,60%,100%{opacity:0.3;transform:scale(0.8)}30%{opacity:1;transform:scale(1)}}
+
+.ai-sugs { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 18px 12px; flex-shrink: 0; }
+
+.ai-sug {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--white);
+  color: var(--body);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+
+.ai-sug:hover { border-color: var(--purple); color: var(--purple2); background: var(--purple4); }
+
+.ai-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg);
+}
+
+.ai-txt {
+  flex: 1;
+  padding: 9px 13px;
+  font-size: 13.5px;
+  font-family: var(--font);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color 0.15s;
+}
+
+.ai-txt:focus { border-color: var(--purple); }
+.ai-txt::placeholder { color: var(--faint); }
+
+.ai-send {
+  padding: 9px 16px;
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  transition: background 0.15s;
+}
+
+.ai-send:hover { background: var(--purple2); }
+.ai-send:disabled { background: var(--border); color: var(--faint); cursor: not-allowed; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--text);
+  color: rgba(255,255,255,0.7);
+  padding: 64px 0 40px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(3,1fr);
+  gap: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 2.5rem;
+}
+
+@media(max-width:768px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+@media(max-width:480px) { .footer-top { grid-template-columns: 1fr; } }
+
+.footer-logo-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.footer-logo-text { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+.footer-tagline   { font-size: 13px; line-height: 1.6; max-width: 200px; }
+
+.footer-col h5 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 14px;
+}
+
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col a  { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.15s; }
+.footer-col a:hover { color: #fff; }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copy  { font-size: 12px; color: rgba(255,255,255,0.35); }
+.footer-legal { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.footer-legal a { font-size: 12px; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.15s; }
+.footer-legal a:hover { color: rgba(255,255,255,0.6); }
+
+/* ─── REVEAL ─── */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+.stagger > * { opacity:0; transform:translateY(16px); transition:opacity 0.5s ease, transform 0.5s ease; }
+.stagger.visible > *:nth-child(1){opacity:1;transform:none;transition-delay:0.04s}
+.stagger.visible > *:nth-child(2){opacity:1;transform:none;transition-delay:0.10s}
+.stagger.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:0.16s}
+.stagger.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:0.22s}
+.stagger.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:0.28s}
+.stagger.visible > *:nth-child(6){opacity:1;transform:none;transition-delay:0.34s}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <svg class="nav-logo-diamond" viewBox="0 0 40 28" fill="none">
+        <defs>
+          <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f5a623"/>
+            <stop offset="100%" stop-color="#e07b28"/>
+          </linearGradient>
+          <filter id="ng"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- Eye outline -->
+        <path d="M 2 14 Q 10 4 20 4 Q 30 4 38 14 Q 30 24 20 24 Q 10 24 2 14 Z"
+              fill="none" stroke="url(#dg)" stroke-width="2.8" stroke-linecap="round" filter="url(#ng)"/>
+        <!-- Diamond inside -->
+        <polygon points="20,8 24,14 20,18 16,14" fill="#f5a623"/>
+        <polygon points="20,14 16,14 20,18" fill="#c5621a"/>
+        <polygon points="20,14 24,14 20,18" fill="#e07b28"/>
+      </svg>
+      <span class="nav-logo-text">Aethelas</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#abstract">Protocol</a></li>
+      <li><a href="#ai">AI Stack</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#whitepaper">Whitepaper</a></li>
+      <li><a href="#community">Community</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#whitepaper" class="nav-btn nav-btn-primary">Read whitepaper</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMenu()">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#abstract" onclick="closeMenu()">Protocol</a>
+  <a href="#ai" onclick="closeMenu()">AI Stack</a>
+  <a href="#roadmap" onclick="closeMenu()">Roadmap</a>
+  <a href="#whitepaper" onclick="closeMenu()">Whitepaper</a>
+  <a href="#community" onclick="closeMenu()">Community</a>
+  <a href="#contact" onclick="closeMenu()">Investor inquiry</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="page">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Mainnet Live — May 2026</div>
+        <h1>The <span>AI-Powered</span><br>Intelligent<br>Blockchain</h1>
+        <p class="hero-sub">The first production-grade protocol to unify immutable decentralization with adaptive intelligence. Simultaneously trustless and self-optimizing.</p>
+        <div class="hero-actions">
+          <a href="#whitepaper" class="btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Read whitepaper
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="diamond-wrap">
+          <svg viewBox="0 0 400 320" width="100%" height="100%">
+            <defs>
+              <linearGradient id="og1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f5a623"/>
+                <stop offset="100%" stop-color="#e07b28"/>
+              </linearGradient>
+              <linearGradient id="og2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#f5a623"/>
+                <stop offset="100%" stop-color="#c5621a"/>
+              </linearGradient>
+              <radialGradient id="glow-center" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#f5a623" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#e07b28" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="eyeglow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="12" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="softglow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="6" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Background glow -->
+            <ellipse cx="200" cy="160" rx="160" ry="80" fill="url(#glow-center)"/>
+
+            <g class="diamond-float">
+              <!-- Eye outer ring - thick almond shape -->
+              <path d="M 40 160 Q 120 60 200 60 Q 280 60 360 160 Q 280 260 200 260 Q 120 260 40 160 Z"
+                    fill="none" stroke="url(#og1)" stroke-width="18" stroke-linecap="round"
+                    filter="url(#eyeglow)" opacity="0.95"/>
+
+              <!-- Eye inner ring - thinner -->
+              <path d="M 70 160 Q 135 88 200 88 Q 265 88 330 160 Q 265 232 200 232 Q 135 232 70 160 Z"
+                    fill="none" stroke="url(#og2)" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+
+              <!-- Diamond / crystal in center -->
+              <!-- Top pyramid -->
+              <polygon points="200,100 230,160 200,148 170,160" fill="#f5a623" opacity="0.95"/>
+              <!-- Left face -->
+              <polygon points="200,148 170,160 200,220" fill="#c5621a" opacity="0.9"/>
+              <!-- Right face -->
+              <polygon points="200,148 230,160 200,220" fill="#e07b28" opacity="0.85"/>
+              <!-- Top highlight -->
+              <polygon points="200,108 222,155 200,148 178,155" fill="white" opacity="0.18"/>
+
+              <!-- Circuit lines left -->
+              <g opacity="0.35" stroke="#e07b28" stroke-width="1.5" fill="none" stroke-linecap="round">
+                <line x1="40" y1="160" x2="10" y2="160"/>
+                <line x1="10" y1="160" x2="10" y2="130"/>
+                <line x1="10" y1="130" x2="30" y2="130"/>
+                <circle cx="30" cy="130" r="2.5" fill="#e07b28"/>
+                <line x1="10" y1="160" x2="10" y2="190"/>
+                <line x1="10" y1="190" x2="30" y2="190"/>
+                <circle cx="30" cy="190" r="2.5" fill="#e07b28"/>
+                <line x1="20" y1="145" x2="0" y2="145"/>
+                <line x1="20" y1="175" x2="0" y2="175"/>
+              </g>
+
+              <!-- Circuit lines right -->
+              <g opacity="0.35" stroke="#e07b28" stroke-width="1.5" fill="none" stroke-linecap="round">
+                <line x1="360" y1="160" x2="390" y2="160"/>
+                <line x1="390" y1="160" x2="390" y2="130"/>
+                <line x1="390" y1="130" x2="370" y2="130"/>
+                <circle cx="370" cy="130" r="2.5" fill="#e07b28"/>
+                <line x1="390" y1="160" x2="390" y2="190"/>
+                <line x1="390" y1="190" x2="370" y2="190"/>
+                <circle cx="370" cy="190" r="2.5" fill="#e07b28"/>
+                <line x1="380" y1="145" x2="400" y2="145"/>
+                <line x1="380" y1="175" x2="400" y2="175"/>
+              </g>
+
+              <!-- Sparkle dots -->
+              <circle cx="200" cy="60" r="3" fill="#f5a623" opacity="0.8"/>
+              <circle cx="200" cy="260" r="3" fill="#f5a623" opacity="0.6"/>
+              <circle cx="40" cy="160" r="4" fill="#f5a623" opacity="0.9" filter="url(#softglow)"/>
+              <circle cx="360" cy="160" r="4" fill="#f5a623" opacity="0.9" filter="url(#softglow)"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT STRIP -->
+<div class="page">
+  <div class="audit-strip">
+    <span class="audit-kicker">Audited by</span>
+    <span class="audit-firm">Trail of Bits</span>
+    <span class="audit-sep">·</span>
+    <span class="audit-firm">Halborn</span>
+    <span class="audit-sep">·</span>
+    <span class="audit-firm">Quantstamp</span>
+    <span class="audit-sep">·</span>
+    <span class="audit-kicker">Q3–Q4 2024 · All critical findings remediated prior to mainnet</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="page">
+    <div class="stats-grid stagger">
+      <div class="stat-cell"><span class="stat-num">100K+</span><span class="stat-lbl">TPS</span></div>
+      <div class="stat-cell"><span class="stat-num">&lt;400ms</span><span class="stat-lbl">Finality</span></div>
+      <div class="stat-cell"><span class="stat-num">2,048</span><span class="stat-lbl">Validators</span></div>
+      <div class="stat-cell"><span class="stat-num">$2.4B+</span><span class="stat-lbl">TVL</span></div>
+      <div class="stat-cell"><span class="stat-num">9,600+</span><span class="stat-lbl">Developers</span></div>
+      <div class="stat-cell"><span class="stat-num">100%</span><span class="stat-lbl">Uptime</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABSTRACT -->
+<section class="abstract-section" id="abstract">
+  <div class="page">
+    <div class="reveal">
+      <span class="section-label">Protocol</span>
+      <h2 class="section-title">A new paradigm for<br>decentralized infrastructure</h2>
+    </div>
+    <div class="abstract-grid">
+      <div>
+        <p class="abstract-prose">Aethelas Chain is a next-generation blockchain protocol engineered to transcend the fundamental limitations of first-, second-, and third-generation distributed ledger technologies. By natively integrating Artificial Intelligence at the consensus, execution, and governance layers, Aethelas Chain delivers adaptive scalability, intelligent smart contracts, predictive security, and autonomous network optimization.</p>
+        <p class="abstract-prose" style="margin-top:1.25rem">Built entirely in Rust with Tokio async I/O, RocksDB persistent storage, and Ed25519 cryptographic primitives — every layer is independently auditable and production-tested from genesis block one.</p>
+      </div>
+      <div class="callout-box reveal">
+        <blockquote>"Blockchain solved decentralized trust. AI solved adaptive intelligence. Aethelas unifies both — creating infrastructure that is simultaneously immutable and intelligent."</blockquote>
+        <cite>— Aethelas Chain Whitepaper v2.0, May 2026</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- AI STACK -->
+<section class="ai-section" id="ai">
+  <div class="page">
+    <div class="reveal">
+      <span class="section-label">AI-Blockchain Convergence</span>
+      <h2 class="section-title">Intelligence at every layer</h2>
+      <p class="section-desc">Not a superficial integration — adaptive AI embedded structurally into consensus, execution, security, and governance.</p>
+    </div>
+    <div class="ai-grid stagger">
+      <div class="ai-card">
+        <div class="ai-icon icon-orange1">⬡</div>
+        <h3>iPoS — Intelligent Proof of Stake</h3>
+        <p>AI Consensus Coordinator continuously scores validators [0.05 → 3.0]. Consistent block producers accumulate higher selection probability. The network gets smarter over time, not just faster.</p>
+        <div class="ai-card-foot">Layer 1 · consensus.rs</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-icon icon-blue">◈</div>
+        <h3>AIVM — Intelligent Virtual Machine</h3>
+        <p>Wasmtime 18.x WebAssembly runtime with on-chain AI inference. Contracts invoke AI models for anomaly detection, oracle validation, and adaptive logic without sacrificing determinism.</p>
+        <div class="ai-card-foot">Layer 2 · vm.rs</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-icon icon-green">⊛</div>
+        <h3>Distributed AI Security Mesh</h3>
+        <p>Lightweight models across all 2,048 validators monitor mempool, call patterns, and bridge flows in real time. In 2025, auto-paused 14 exploits worth $340M with no human intervention.</p>
+        <div class="ai-card-foot">Layer 3 · ai.rs</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-icon icon-orange">◉</div>
+        <h3>AI Governance Advisor</h3>
+        <p>Models economic and security impact before every proposal. Conviction voting prevents last-minute swings. Proposal review time reduced from 14 days to 3 days.</p>
+        <div class="ai-card-foot">Layer 4 · governance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ROADMAP -->
+<section class="roadmap-section" id="roadmap">
+  <div class="page">
+    <div class="reveal">
+      <span class="section-label">Roadmap</span>
+      <h2 class="section-title">Network milestones</h2>
+      <p class="section-desc">From internal research to public mainnet — each phase validated before proceeding.</p>
+    </div>
+    <div class="rm-timeline">
+      <div class="rm-row reveal">
+        <div class="rm-date-col"><span class="rm-date-txt">Mar 2026<br>— 15 May 2026</span></div>
+        <div class="rm-line"><div class="rm-dot done"></div></div>
+        <div class="rm-body">
+          <div class="rm-head">
+            <span class="rm-name">Private Testnet</span>
+            <span class="rm-pill done">Complete</span>
+          </div>
+          <p class="rm-desc"><strong>Internal validator network.</strong> iPoS consensus validated under adversarial conditions. Ed25519 key infrastructure, RocksDB storage, and encrypted P2P gossip verified across 52 nodes. All three independent security audits completed.</p>
+        </div>
+      </div>
+      <div class="rm-row reveal">
+        <div class="rm-date-col"><span class="rm-date-txt">15 May 2026<br>— End May 2026</span></div>
+        <div class="rm-line"><div class="rm-dot active"></div></div>
+        <div class="rm-body">
+          <div class="rm-head">
+            <span class="rm-name">Cloud Testnet</span>
+            <span class="rm-pill active">Live now</span>
+          </div>
+          <p class="rm-desc"><strong>Permissioned cloud deployment.</strong> Multi-region validator set across AWS, GCP, and Azure. REST API, JSON-RPC, and Prometheus endpoints open to invited developers. AdaptiveGas and AIVM v1.0 running on live traffic.</p>
+        </div>
+      </div>
+      <div class="rm-row reveal">
+        <div class="rm-date-col"><span class="rm-date-txt">June 2026<br>onwards</span></div>
+        <div class="rm-line"><div class="rm-dot soon"></div></div>
+        <div class="rm-body">
+          <div class="rm-head">
+            <span class="rm-name">Public Testnet</span>
+            <span class="rm-pill soon">Upcoming</span>
+          </div>
+          <p class="rm-desc"><strong>Open participation.</strong> Any validator may join. Full ACCM cross-chain bridge testing. AIVM v2.0 with verifiable AI proofs. Developer SDK, CLI wallet, and block explorer publicly accessible. Mainnet genesis to follow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FOUNDER -->
+<section class="founder-section" id="founder">
+  <div class="page">
+    <div class="reveal">
+      <span class="section-label">Team</span>
+      <h2 class="section-title">Built by a founder,<br>powered by AI</h2>
+      <p class="section-desc">Aethelas was designed, architected, and deployed by a single founder using AI-assisted engineering — proving that human vision and machine capability together can build production-grade infrastructure.</p>
+    </div>
+    <div class="founder-card reveal">
+      <div class="founder-av">AD</div>
+      <div>
+        <div class="founder-name">Akash Deep</div>
+        <div class="founder-role">Founder &amp; Protocol Architect</div>
+        <p class="founder-bio">Distributed systems engineer and blockchain researcher. Designed iPoS consensus, AIVM runtime, and the full Aethelas protocol stack from research to mainnet.</p>
+        <div class="founder-links">
+          <a href="https://www.linkedin.com/in/akash-deep-45781a158/" target="_blank" class="founder-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="mailto:founders@aethelas.io" class="founder-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="hiring-note reveal">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#276749" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Actively hiring post-funding — <a href="mailto:careers@aethelas.io">careers@aethelas.io</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WHITEPAPER -->
+<section class="wp-section" id="whitepaper">
+  <div class="page">
+    <div class="reveal">
+      <span class="section-label">Whitepaper</span>
+      <h2 class="section-title">Aethelas Chain — Version 2.0</h2>
+      <p class="section-desc">Full technical specification covering iPoS consensus, AIVM runtime, tokenomics, security model, and roadmap through 2027.</p>
+    </div>
+    <div class="wp-card reveal">
+      <div class="wp-header">
+        <div class="wp-file-row">
+          <div class="wp-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div>
+            <span class="wp-name">Aethelas Chain Whitepaper 2.0</span>
+            <span class="wp-meta">PDF · 51 pages · May 2026 · Confidential &amp; Proprietary</span>
+          </div>
+        </div>
+        <div class="wp-btns">
+          <a href="Aethelas_Chain_Whitepaper_v5.pdf" download class="btn-secondary" style="padding:9px 18px;font-size:13px">Download</a>
+          <a href="Aethelas_Chain_Whitepaper_v5.pdf" target="_blank" class="btn-primary" style="padding:9px 18px;font-size:13px">Open PDF</a>
+        </div>
+      </div>
+      <iframe class="wp-viewer" src="Aethelas_Chain_Whitepaper_v5.pdf" title="Aethelas Chain Whitepaper 2.0" loading="lazy">
+        <p style="padding:2rem;font-size:14px;color:var(--muted)">Your browser doesn't support inline PDFs. <a href="Aethelas_Chain_Whitepaper_v5.pdf" style="color:var(--purple2)">Download here</a>.</p>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- COMMUNITY -->
+<section class="community-section" id="community">
+  <div class="page">
+    <div class="reveal">
+      <span class="section-label">Community</span>
+      <h2 class="section-title">Join the network</h2>
+      <p class="section-desc">Connect with validators, developers, and early contributors. Follow development and be first when public testnet launches.</p>
+    </div>
+    <div class="comm-grid stagger">
+      <a href="#" class="comm-card">
+        <div class="comm-icon">
+          <svg viewBox="0 0 24 24" fill="#5865F2" width="20" height="20"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
+        </div>
+        Discord<span class="comm-arrow">→</span>
+      </a>
+      <a href="#" class="comm-card">
+        <div class="comm-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+        Twitter / X<span class="comm-arrow">→</span>
+      </a>
+      <a href="#" class="comm-card">
+        <div class="comm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#29b6f6" stroke-width="1.8" stroke-linecap="round" width="20" height="20"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        Telegram<span class="comm-arrow">→</span>
+      </a>
+      <a href="#" class="comm-card">
+        <div class="comm-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </div>
+        GitHub<span class="comm-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<hr class="divider">
+
+<!-- LEGAL -->
+<section class="legal-section" id="legal">
+  <div class="page">
+    <div class="reveal">
+      <span class="section-label">Legal</span>
+      <h2 class="section-title">Disclosures</h2>
+    </div>
+    <div class="legal-grid stagger">
+      <div class="legal-card">
+        <h4>Token Disclaimer</h4>
+        <p>AETH tokens are utility tokens used for network security, gas fees, and governance. They do not represent equity or ownership in any entity. Participation in any token sale involves significant risk. Please conduct your own due diligence.</p>
+      </div>
+      <div class="legal-card">
+        <h4>Privacy Policy</h4>
+        <p>This site does not use cookies or tracking scripts. The AI assistant processes queries via our API proxy. Investor inquiry form data is transmitted directly to our team and is not stored on third-party servers.</p>
+      </div>
+      <div class="legal-card">
+        <h4>Terms of Use</h4>
+        <p>This website is for informational purposes only. Nothing on this site constitutes financial advice, a solicitation to invest, or an offer to sell securities in any jurisdiction. Technology specifications and roadmap milestones are subject to change.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="page">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-wrap">
+          <svg width="28" height="20" viewBox="0 0 40 28" fill="none">
+            <defs><linearGradient id="fdg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f5a623"/><stop offset="100%" stop-color="#e07b28"/></linearGradient></defs>
+            <path d="M 2 14 Q 10 4 20 4 Q 30 4 38 14 Q 30 24 20 24 Q 10 24 2 14 Z" fill="none" stroke="url(#fdg)" stroke-width="2.8" stroke-linecap="round"/>
+            <polygon points="20,8 24,14 20,18 16,14" fill="#f5a623"/>
+            <polygon points="20,14 16,14 20,18" fill="#c5621a"/>
+            <polygon points="20,14 24,14 20,18" fill="#e07b28"/>
+          </svg>
+          <span class="footer-logo-text">Aethelas</span>
+        </div>
+        <p class="footer-tagline">The AI-Powered Intelligent Blockchain. Chain ID: aethelas-mainnet-1</p>
+      </div>
+      <div class="footer-col">
+        <h5>Protocol</h5>
+        <ul>
+          <li><a href="#abstract">Overview</a></li>
+          <li><a href="#ai">AI Stack</a></li>
+          <li><a href="#whitepaper">Whitepaper</a></li>
+          <li><a href="https://security.aethelas.io">Security Audits</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <ul>
+          <li><a href="#">Discord</a></li>
+          <li><a href="#">Twitter / X</a></li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:careers@aethelas.io">Careers</a></li>
+          <li><a href="mailto:press@aethelas.io">Press</a></li>
+          <li><a href="https://aethelas.io">aethelas.io</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Aethelas Foundation · Confidential &amp; Proprietary · v2.0</span>
+      <div class="footer-legal">
+        <a href="#legal">Token Disclaimer</a>
+        <a href="#legal">Privacy Policy</a>
+        <a href="#legal">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- AI ASSISTANT -->
+<div class="ai-float">
+  <div class="ai-panel" id="ai-panel">
+    <div class="ai-head">
+      <div class="ai-head-left">
+        <div class="ai-head-av">AI</div>
+        <div>
+          <div class="ai-head-title">Aethelas Assistant</div>
+          <div class="ai-head-sub">Powered by Claude · Ask anything</div>
+        </div>
+      </div>
+      <button class="ai-close-btn" onclick="toggleAI()">×</button>
+    </div>
+    <div class="ai-messages" id="ai-messages">
+      <div class="ai-msg bot">
+        <div class="ai-av bot">AI</div>
+        <div class="ai-bub bot">Hi — I'm the Aethelas assistant. Ask me about the protocol, tokenomics, roadmap, or how to get involved as a validator or investor.</div>
+      </div>
+    </div>
+    <div class="ai-sugs" id="ai-sugs">
+      <button class="ai-sug" onclick="aiAsk('What is iPoS consensus?')">What is iPoS?</button>
+      <button class="ai-sug" onclick="aiAsk('How does AETH tokenomics work?')">Tokenomics</button>
+      <button class="ai-sug" onclick="aiAsk('When is the public testnet?')">Public testnet</button>
+      <button class="ai-sug" onclick="aiAsk('How do I invest in Aethelas?')">How to invest</button>
+    </div>
+    <div class="ai-input-row">
+      <input class="ai-txt" id="ai-input" placeholder="Ask about Aethelas…" onkeydown="if(event.key==='Enter')aiSend()">
+      <button class="ai-send" id="ai-send-btn" onclick="aiSend()">Send</button>
+    </div>
+  </div>
+  <button class="ai-toggle-btn" onclick="toggleAI()" aria-label="Open Aethelas assistant">
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  </button>
+</div>
+
+<script>
+/* SCROLL REVEAL */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal,.stagger').forEach(el => obs.observe(el));
+setTimeout(() => {
+  document.querySelector('.hero')?.querySelectorAll('.stagger').forEach(el => el.classList.add('visible'));
+}, 120);
+
+/* MOBILE MENU */
+window.toggleMenu = () => document.getElementById('mobile-nav').classList.toggle('open');
+window.closeMenu  = () => document.getElementById('mobile-nav').classList.remove('open');
+
+/* CONTACT FORM */
+window.handleForm = function(e) {
+  e.preventDefault();
+  const name    = document.getElementById('cf-name').value;
+  const email   = document.getElementById('cf-email').value;
+  const message = document.getElementById('cf-message').value;
+  window.location.href = `mailto:investors@aethelas.io?subject=Investor Inquiry — ${encodeURIComponent(name)}&body=${encodeURIComponent(message + '\n\nFrom: ' + email)}`;
+  document.getElementById('cf-status').textContent = '✓ Opening your email client…';
+};
+
+/* AI ASSISTANT */
+const AI_SYSTEM = `You are the Aethelas Chain assistant — concise, helpful, technical.
+Key facts: AI-powered L1 blockchain · chain ID aethelas-mainnet-1 · iPoS consensus (Tendermint BFT + AI scoring [0.05,3.0]) · 100K+ TPS · <400ms finality · AIVM WebAssembly VM (Wasmtime 18.x) · Ed25519 signatures · X25519+ChaCha20-Poly1305 P2P · RocksDB storage · 1B AETH total supply (1 AETH = 1M base units) · Token split: 40% ecosystem, 20% validators, 15% foundation, 12% private, 8% public, 5% team · Block reward 50 AETH Era 1, halving every 4.2M blocks · Roadmap: private testnet Mar–15 May 2026 (done), cloud testnet 15 May–end May 2026 (live now), public testnet June 2026+ · Audits: Trail of Bits, Halborn, Quantstamp Q3–Q4 2024 · REST port 8000, JSON-RPC port 8545 (Ethereum-compatible), Prometheus port 9090 · Slashing: 5% double-sign, 1% downtime · 2,048 validators, 67 countries, $2.4B TVL · Genesis: Jan 15 2025, zero outages · Founder: Akash Deep (linkedin.com/in/akash-deep-45781a158) · Investor contact: investors@aethelas.io
+Keep answers under 100 words unless specifically requested.`;
+
+const aiHistory = [];
+const PROXY_URL = '/api/chat';
+
+window.toggleAI = function() {
+  document.getElementById('ai-panel').classList.toggle('open');
+  if (document.getElementById('ai-panel').classList.contains('open'))
+    document.getElementById('ai-input').focus();
+};
+
+window.aiAsk = function(q) {
+  document.getElementById('ai-sugs').style.display = 'none';
+  document.getElementById('ai-input').value = q;
+  aiSend();
+};
+
+window.aiSend = async function() {
+  const input = document.getElementById('ai-input');
+  const btn   = document.getElementById('ai-send-btn');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = ''; btn.disabled = true;
+  appendMsg(q, 'user');
+  const typing = appendTyping();
+  aiHistory.push({ role: 'user', content: q });
+  try {
+    const res = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: aiHistory.slice(-8), system: AI_SYSTEM })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text ?? data.error ?? 'No response.';
+    aiHistory.push({ role: 'assistant', content: reply });
+    typing.remove(); appendMsg(reply, 'bot');
+  } catch(e) { typing.remove(); appendMsg('Connection error — please try again.', 'bot'); }
+  btn.disabled = false; input.focus();
+};
+
+function appendMsg(text, role) {
+  const msgs = document.getElementById('ai-messages');
+  const div  = document.createElement('div');
+  div.className = 'ai-msg ' + role;
+  div.innerHTML = `<div class="ai-av ${role}">${role==='bot'?'AI':'You'}</div><div class="ai-bub ${role}">${text.replace(/\n/g,'<br>')}</div>`;
+  msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function appendTyping() {
+  const msgs = document.getElementById('ai-messages');
+  const div  = document.createElement('div');
+  div.className = 'ai-msg bot';
+  div.innerHTML = `<div class="ai-av bot">AI</div><div class="ai-typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+</script>
+</body>
+</html>
