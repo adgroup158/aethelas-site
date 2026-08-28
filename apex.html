@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Aethelas — Verifiable AI Memory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#070B18;
+  --deep:#0C1428;
+  --panel:#111C36;
+  --edge:#1E2B4C;
+  --ink:#F2F6FC;
+  --dim:#93A5C6;
+  --faint:#5E6E91;
+  --gold:#D9A94C;
+  --cyan:#4FC3E8;
+  --rose:#E2748A;
+  --violet:#8B7BD8;
+  --display:'Spectral',Georgia,serif;
+  --body:'Sora',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--void);color:var(--ink);font-family:var(--body);
+  font-weight:300;-webkit-font-smoothing:antialiased;overflow:hidden;
+}
+/* ambient starfield */
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background:
+    radial-gradient(1px 1px at 12% 22%,#fff,transparent),
+    radial-gradient(1px 1px at 68% 14%,#cfe0ff,transparent),
+    radial-gradient(1px 1px at 84% 62%,#fff,transparent),
+    radial-gradient(1px 1px at 34% 78%,#bcd0f5,transparent),
+    radial-gradient(1px 1px at 52% 44%,#fff,transparent),
+    radial-gradient(2px 2px at 22% 58%,rgba(217,169,76,.6),transparent),
+    radial-gradient(1px 1px at 91% 31%,#fff,transparent),
+    radial-gradient(1px 1px at 7% 88%,#fff,transparent);
+}
+.glow{position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(90px)}
+.glow.a{width:46vw;height:46vw;right:-14vw;top:-18vw;background:rgba(139,123,216,.16)}
+.glow.b{width:34vw;height:34vw;left:-12vw;bottom:-14vw;background:rgba(79,195,232,.12)}
+
+.deck{position:relative;z-index:1;height:100%}
+.slide{
+  position:absolute;inset:0;display:none;
+  padding:clamp(28px,5vw,84px) clamp(24px,6vw,110px);
+  overflow-y:auto;
+}
+.slide.on{display:flex;flex-direction:column;justify-content:center;
+  animation:rise .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide.on{animation:none}}
+
+.eyebrow{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem}
+h1{font-family:var(--display);font-weight:700;line-height:1.02;
+  font-size:clamp(2.4rem,6.2vw,4.7rem);letter-spacing:-.02em}
+h2{font-family:var(--display);font-weight:600;line-height:1.08;
+  font-size:clamp(1.6rem,3.5vw,2.85rem);letter-spacing:-.015em;margin-bottom:2rem}
+h3{font-family:var(--display);font-weight:600;font-size:1.18rem;margin-bottom:.5rem}
+p{color:var(--dim);line-height:1.62;font-size:clamp(.87rem,1.05vw,1rem)}
+.lede{font-size:clamp(1rem,1.5vw,1.3rem);color:var(--ink);opacity:.9;max-width:52ch}
+
+.grid{display:grid;gap:clamp(12px,1.4vw,20px)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+.card{background:var(--panel);border:1px solid var(--edge);border-radius:3px;
+  padding:clamp(16px,1.7vw,26px)}
+.card.void{background:rgba(7,11,24,.72)}
+.card.lit{border-color:rgba(217,169,76,.42)}
+
+ul{list-style:none}
+li{color:var(--dim);line-height:1.55;padding-left:1.05rem;position:relative;
+  margin-bottom:.55rem;font-size:.9rem}
+li::before{content:'';position:absolute;left:0;top:.62em;width:5px;height:5px;
+  background:var(--cyan);border-radius:50%}
+li.warn::before{background:var(--rose)}
+li.ok::before{background:#5FBF97}
+
+.tag{display:inline-block;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.16em;text-transform:uppercase;padding:.3rem .6rem;
+  border:1px solid var(--edge);border-radius:2px;color:var(--faint)}
+.stat{font-family:var(--display);font-weight:700;
+  font-size:clamp(1.8rem,3.4vw,2.7rem);color:var(--gold);line-height:1}
+.stat + .lbl{font-family:var(--mono);font-size:.64rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--faint);margin-top:.55rem}
+.rows{display:flex;flex-direction:column;gap:.1rem}
+.row{display:grid;grid-template-columns:11rem 1fr;gap:1rem;padding:.62rem 0;
+  border-bottom:1px solid rgba(30,43,76,.6)}
+.row:last-child{border-bottom:0}
+.row dt{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--cyan)}
+.row dd{color:var(--dim);font-size:.9rem}
+@media(max-width:700px){.row{grid-template-columns:1fr;gap:.2rem}}
+
+.step{display:flex;flex-direction:column;gap:.5rem}
+.step .n{font-family:var(--mono);font-size:.68rem;color:var(--gold);letter-spacing:.14em}
+.foot{margin-top:auto;padding-top:1.6rem;font-size:.78rem;color:var(--faint);
+  font-style:italic;line-height:1.5}
+.disclose{color:var(--rose);font-style:normal;font-family:var(--mono);
+  font-size:.64rem;letter-spacing:.14em;text-transform:uppercase}
+
+/* nav */
+.bar{position:fixed;bottom:0;left:0;right:0;z-index:5;
+  display:flex;align-items:center;gap:1rem;
+  padding:.7rem clamp(18px,4vw,44px);
+  background:linear-gradient(transparent,rgba(7,11,24,.92) 55%)}
+.ticks{display:flex;gap:5px;flex:1}
+.tick{height:2px;flex:1;background:var(--edge);border:0;padding:0;cursor:pointer;
+  transition:background .25s}
+.tick.on{background:var(--gold)}
+.tick:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.count{font-family:var(--mono);font-size:.7rem;color:var(--faint);
+  min-width:3.4rem;text-align:right}
+.arrows{display:flex;gap:.4rem}
+.arrows button{background:none;border:1px solid var(--edge);color:var(--dim);
+  width:30px;height:30px;border-radius:2px;cursor:pointer;font-size:.85rem;
+  line-height:1;font-family:var(--body)}
+.arrows button:hover{border-color:var(--gold);color:var(--gold)}
+.arrows button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="stars"></div><div class="glow a"></div><div class="glow b"></div>
+
+<main class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide on">
+  <div class="eyebrow">Aethelas Private Limited</div>
+  <h1>Verifiable<br>AI Memory</h1>
+  <p class="lede" style="margin-top:1.6rem">A trust and verification layer for AI systems in regulated industry.</p>
+  <div style="margin-top:1.8rem;display:flex;gap:.5rem;flex-wrap:wrap">
+    <span class="tag">Learn</span><span class="tag">Remember</span>
+    <span class="tag">Prove</span><span class="tag">Unlearn</span>
+  </div>
+  <div style="margin-top:3rem">
+    <p style="color:var(--ink);font-size:.95rem">Akash Deep — Founder</p>
+    <p style="font-size:.82rem;margin-top:.3rem">Introductory discussion · Draper University · August 2026</p>
+  </div>
+  <div class="foot"><span class="disclose">Pre-mainnet</span><br>
+    Every figure in this deck reflects current implementation state.</div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="eyebrow">The problem</div>
+  <h2>Regulators demand proof.<br>AI cannot provide it.</h2>
+  <div class="grid g3">
+    <div class="card"><h3>GDPR Art. 17</h3>
+      <p>A data subject requests erasure. The model already learned from their data. Deleting the row does not delete the learning.</p></div>
+    <div class="card"><h3>EU AI Act</h3>
+      <p>High-risk systems must evidence training data provenance and post-market monitoring — on demand, to a supervisor.</p></div>
+    <div class="card"><h3>DPDP Act 2023</h3>
+      <p>India-specific erasure and consent obligations, now entering enforcement, with no accepted technical means of proof.</p></div>
+  </div>
+  <div class="card void lit" style="margin-top:1.4rem">
+    <h3 style="color:var(--ink);margin-bottom:.6rem">Today the answer to “prove it” is a signed statement from the vendor.</h3>
+    <p>There is no independent, tamper-evident record of what an AI system learned, or of what it was made to forget. That gap is what Aethelas closes.</p>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="eyebrow">What we build</div>
+  <h2>Four operations, each cryptographically recorded</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Learn</h3><p>Every learning event is written as a signed, timestamped ledger entry — who contributed what data, when, and to which model version.</p></div>
+    <div class="card"><h3>Remember</h3><p>Tiered memory with a temporal graph. Retrieval is reconstructable and attributable to specific recorded events.</p></div>
+    <div class="card"><h3>Prove</h3><p>Merkle inclusion proofs let a third party verify any claim about the training history without trusting the operator.</p></div>
+    <div class="card"><h3>Unlearn</h3><p>Redact a contributor’s entries and deterministically replay. Recall on their patterns drops; unrelated task knowledge is preserved.</p></div>
+  </div>
+  <div class="foot">Honest scope: the ledger’s value is provenance and auditable erasure — not higher model accuracy. Our own experiments show a small accuracy cost, and we report it.</div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="eyebrow">Architecture</div>
+  <h2>Why this needs a purpose-built chain</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>The constraint</h3>
+      <p>Proof records are generated at learning-event frequency — orders of magnitude above any public chain’s block rate. Anchoring each one directly to a public ledger is neither economic nor fast enough.</p>
+      <p style="margin-top:1rem">Aethelas therefore runs its own consensus for high-frequency recording, and batches proof roots outward for public settlement.</p>
+    </div>
+    <div class="card void">
+      <h3 style="margin-bottom:1rem">The stack</h3>
+      <dl class="rows">
+        <div class="row"><dt>Consensus</dt><dd>Tendermint-BFT with iPoS validator scoring</dd></div>
+        <div class="row"><dt>Runtime</dt><dd>Wasmtime WASM virtual machine</dd></div>
+        <div class="row"><dt>Cryptography</dt><dd>Ed25519 · X25519 · ChaCha20-Poly1305</dd></div>
+        <div class="row"><dt>Storage</dt><dd>RocksDB, LZ4 compressed</dd></div>
+        <div class="row"><dt>Interfaces</dt><dd>REST and JSON-RPC</dd></div>
+        <div class="row"><dt>Language</dt><dd>Rust — 52+ modules, ~7,000 lines</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="eyebrow">Status</div>
+  <h2>What is built, and what is not</h2>
+  <div class="grid g4" style="margin-bottom:1.4rem">
+    <div class="card"><div class="stat">151</div><div class="lbl">Tests passing</div></div>
+    <div class="card"><div class="stat">18 / 18</div><div class="lbl">Pen tests blocked</div></div>
+    <div class="card"><div class="stat">20</div><div class="lbl">Node testnet</div></div>
+    <div class="card"><div class="stat">52+</div><div class="lbl">Rust modules</div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="color:#5FBF97">Implemented and tested</h3>
+      <ul>
+        <li class="ok">BFT consensus with iPoS validator scoring</li>
+        <li class="ok">Merkle inclusion-proof generation and verification</li>
+        <li class="ok">WASM contract execution, staking, slashing, unbonding</li>
+        <li class="ok">Provable deletion via AES-256 crypto-erase</li>
+        <li class="ok">Reed-Solomon erasure coding, dataset provenance</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--rose)">Open before mainnet</h3>
+      <ul>
+        <li class="warn">State commitment is an XOR aggregate, not a full state Merkle root</li>
+        <li class="warn">AI competence scores not yet persisted to RocksDB</li>
+        <li class="warn">Double-sign prevote detection currently disabled</li>
+        <li class="warn">Genesis parameters not yet read at runtime</li>
+        <li class="warn">No external cryptographic audit commissioned</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot">We publish our limitations. It is the same discipline we ask regulated customers to trust us with.</div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="eyebrow">Proposed integration</div>
+  <h2>Cardano as the public anchor for AI audit trails</h2>
+  <div class="grid g4">
+    <div class="card step"><span class="n">01 · Batch</span><p>Aethelas records memory operations at learning-event frequency and batches them.</p></div>
+    <div class="card step"><span class="n">02 · Commit</span><p>A Merkle root is computed over each batch inside the Aethelas node.</p></div>
+    <div class="card step"><span class="n">03 · Anchor</span><p>That root is submitted to Cardano as transaction metadata — no Plutus contract required.</p></div>
+    <div class="card step"><span class="n">04 · Verify</span><p>Any third party checks a proof against the Cardano transaction, without running an Aethelas node.</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:1.4rem">
+    <div class="card void lit"><h3>Value to the ecosystem</h3>
+      <p>An enterprise, compliance-driven use case for Cardano metadata — recurring transaction volume tied to audit cycles rather than market sentiment, plus an open-source verifier any Cardano project can reuse.</p></div>
+    <div class="card"><h3 style="color:var(--rose)">What we are not proposing</h3>
+      <p>Not migrating to Cardano. Not Cardano-native. Cardano is not a settlement layer for Aethelas consensus. Phase 1 requires no Plutus contracts and no protocol change on either side.</p></div>
+  </div>
+  <div class="foot"><span class="disclose">Proposed design — not yet implemented</span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="eyebrow">Market</div>
+  <h2>Who buys this, and why now</h2>
+  <div class="grid g2">
+    <div>
+      <div class="card" style="margin-bottom:.9rem"><h3>Banking</h3><p>RBI model-risk and audit obligations are handled manually today. AI adoption is outpacing the supervisory evidence available.</p></div>
+      <div class="card" style="margin-bottom:.9rem"><h3>Healthcare</h3><p>Patient erasure requests collide with models trained on patient data. No accepted method exists to evidence removal.</p></div>
+      <div class="card"><h3>Government</h3><p>Public-sector AI procurement increasingly requires auditability as a contract condition, not a nice-to-have.</p></div>
+    </div>
+    <div class="card void">
+      <h3 style="margin-bottom:1rem">Go-to-market</h3>
+      <ul>
+        <li>Sell provable erasure as a standalone product to existing data-centre operators facing DPDP Act enforcement</li>
+        <li>Enter through a single regulatory friction point, not a platform replacement</li>
+        <li>Publish the reference implementation to become the default standard</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card lit" style="margin-top:1.3rem">
+    <p style="color:var(--ink)"><strong style="font-weight:500">Current customers: none.</strong> We have a validated testnet and no revenue. The next milestone is one paying enterprise pilot.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="eyebrow">Company</div>
+  <h2>Standing and institutional support</h2>
+  <div class="grid g2">
+    <div class="card">
+      <div class="stat" style="font-size:2rem">DPIIT</div>
+      <h3 style="margin-top:.9rem;font-size:1rem">Recognised deep-tech startup</h3>
+      <p style="margin-top:.5rem">Government of India. Confers eligibility for the Startup India Seed Fund Scheme and public-procurement relaxations.</p>
+    </div>
+    <div class="card">
+      <div class="stat" style="font-size:2rem">ISO 9001</div>
+      <h3 style="margin-top:.9rem;font-size:1rem">Quality management, 2015 standard</h3>
+      <p style="margin-top:.5rem">Certified. Documented process controls — a prerequisite in most regulated-sector procurement.</p>
+    </div>
+  </div>
+  <div class="card void" style="margin-top:1.3rem">
+    <p style="color:var(--ink);font-size:.92rem">Aethelas Private Limited · Patna, India</p>
+    <p style="margin-top:.5rem">Founder-led. Research output published as technical reports with stated limitations — TR-02 image generalization, TR-04 system architecture, TR-06 verifiable unlearning.</p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="eyebrow">The ask</div>
+  <h2>What we are raising, and what it buys</h2>
+  <div class="grid g3" style="margin-bottom:1.4rem">
+    <div class="card lit"><div class="stat">₹50 lakh</div><div class="lbl">Seed, primarily via SISFS</div></div>
+    <div class="card"><div class="stat" style="color:var(--cyan)">$70K</div><div class="lbl">Draper — additive, not a replacement</div></div>
+    <div class="card"><div class="stat" style="color:var(--ink)">12 months</div><div class="lbl">Runway to mainnet and first pilot</div></div>
+  </div>
+  <dl class="rows">
+    <div class="row"><dt>Engineering</dt><dd>Full state Merkle root, AI-score persistence, double-sign detection, runtime genesis parameters.</dd></div>
+    <div class="row"><dt>Audit</dt><dd>Independent cryptographic review before mainnet. Required before any regulated customer will sign.</dd></div>
+    <div class="row"><dt>Deployment</dt><dd>Public testnet, ten or more validators, hosted to avoid colocation cost pre-funding.</dd></div>
+    <div class="row"><dt>First pilot</dt><dd>One paying customer for provable erasure under the DPDP Act.</dd></div>
+  </dl>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="eyebrow">Roadmap</div>
+  <h2>Next four quarters</h2>
+  <div class="grid g4">
+    <div class="card step"><span class="n">Q3 2026</span><p>Close open engineering items. Commission cryptographic audit. Resolve certification and registry housekeeping.</p></div>
+    <div class="card step"><span class="n">Q4 2026</span><p>Public testnet, ten or more validators. Cardano attestation layer, phase 1. Open-source verifier.</p></div>
+    <div class="card step void"><span class="n">Q1 2027</span><p>Mainnet candidate. First paying enterprise pilot for provable erasure. ZK verification proofs in development.</p></div>
+    <div class="card step void"><span class="n">Q2 2027</span><p>Mainnet. DAO governance. Series A positioning on the strength of revenue, not narrative.</p></div>
+  </div>
+  <div class="foot">Token generation and exchange listing are deliberately not on this roadmap. They follow a stable mainnet and paying customers — not the other way round.</div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="eyebrow">The bet</div>
+  <h1 style="font-size:clamp(1.9rem,4.6vw,3.5rem);max-width:26ch">AI accountability becomes a purchasing requirement, not a principle.</h1>
+  <p class="lede" style="margin-top:1.7rem">When it does, someone has to hold the record. We are building the layer that does, and we are honest about how far along it is.</p>
+  <div style="margin-top:3rem">
+    <p style="color:var(--ink);font-size:.95rem">Akash Deep · Founder, Aethelas Private Limited</p>
+    <p style="font-family:var(--mono);font-size:.78rem;color:var(--gold);margin-top:.45rem">aethelas@zohomail.in</p>
+  </div>
+</section>
+
+</main>
+
+<nav class="bar" aria-label="Slide navigation">
+  <div class="ticks" id="ticks"></div>
+  <div class="arrows">
+    <button id="prev" aria-label="Previous slide">←</button>
+    <button id="next" aria-label="Next slide">→</button>
+  </div>
+  <div class="count" id="count"></div>
+</nav>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var ticks=document.getElementById('ticks');
+  var count=document.getElementById('count');
+  var i=0;
+
+  slides.forEach(function(_,n){
+    var b=document.createElement('button');
+    b.className='tick'+(n===0?' on':'');
+    b.setAttribute('aria-label','Go to slide '+(n+1));
+    b.addEventListener('click',function(){go(n)});
+    ticks.appendChild(b);
+  });
+  var tickEls=[].slice.call(ticks.children);
+
+  function go(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
+    tickEls.forEach(function(t,k){t.classList.toggle('on',k===i)});
+    count.textContent=String(i+1).padStart(2,'0')+' / '+slides.length;
+    if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
+  }
+  document.getElementById('next').addEventListener('click',function(){go(i+1)});
+  document.getElementById('prev').addEventListener('click',function(){go(i-1)});
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1)}
+    else if(e.key==='Home'){go(0)}
+    else if(e.key==='End'){go(slides.length-1)}
+  });
+
+  var x0=null;
+  document.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(x0===null)return;
+    var dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>55) go(dx<0?i+1:i-1);
+    x0=null;
+  },{passive:true});
+
+  var start=parseInt((location.hash||'').replace('#',''),10);
+  go(isNaN(start)?0:start-1);
+})();
+</script>
+</body>
+</html>
